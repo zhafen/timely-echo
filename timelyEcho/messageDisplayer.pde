@@ -13,7 +13,8 @@ class MessageDisplayer {
   color text_color = color( 46.3, 53.7, 66.3 );
 
   String display_mode = "max_number";
-  int max_messages_displayed = 6;
+  int max_messages_displayed = 5;
+  int messages_displayed_startup = 3;
 
   //Constructor
   MessageDisplayer( String messages_file, String seconds_file ) {
@@ -71,7 +72,6 @@ class MessageDisplayer {
       inds_to_display = new_inds_to_display;
       x_positions = new_x_positions;
       y_positions = new_y_positions;
-      
     } else if ( display_mode == "max_number" ) {
 
       if ( inds_to_display.length > max_messages_displayed ) {
@@ -108,5 +108,8 @@ class MessageDisplayer {
         current_ind = j;
       }
     }
+    
+    current_ind -= messages_displayed_startup - 1;
+    
   }
 }
