@@ -11,7 +11,9 @@ class MessageDisplayer {
   int current_ind;
   float text_width = 300;
   color text_color = color( 46.3, 53.7, 66.3 );
-  
+
+  String display_mode = "max_number";
+  int max_messages_displayed = 6;
 
   //Constructor
   MessageDisplayer( String messages_file, String seconds_file ) {
@@ -51,22 +53,33 @@ class MessageDisplayer {
   // Figure out when to stop displaying ids.
   void stop_displaying_inds() {
 
-    int[] new_inds_to_display = {};
-    float[] new_x_positions = {};
-    float[] new_y_positions = {};
+    if ( display_mode == "timed" ) {
 
-    for (int j=0; j < inds_to_display.length; j += 1 ) {
-      int ind = inds_to_display[j];
-      if ( time < int( seconds[ind] ) + seconds_to_display_for ) {
-        new_inds_to_display = append( new_inds_to_display, ind );
-        new_x_positions = append( new_x_positions, x_positions[j] );
-        new_y_positions = append( new_y_positions, y_positions[j] );
+      int[] new_inds_to_display = {};
+      float[] new_x_positions = {};
+      float[] new_y_positions = {};
+
+      for (int j=0; j < inds_to_display.length; j += 1 ) {
+        int ind = inds_to_display[j];
+        if ( time < int( seconds[ind] ) + seconds_to_display_for ) {
+          new_inds_to_display = append( new_inds_to_display, ind );
+          new_x_positions = append( new_x_positions, x_positions[j] );
+          new_y_positions = append( new_y_positions, y_positions[j] );
+        }
+      }
+
+      inds_to_display = new_inds_to_display;
+      x_positions = new_x_positions;
+      y_positions = new_y_positions;
+      
+    } else if ( display_mode == "max_number" ) {
+
+      if ( inds_to_display.length > max_messages_displayed ) {
+        inds_to_display = subset( inds_to_display, 1 );
+        x_positions = subset( x_positions, 1 );
+        y_positions = subset( y_positions, 1 );
       }
     }
-
-    inds_to_display = new_inds_to_display;
-    x_positions = new_x_positions;
-    y_positions = new_y_positions;
   }
 
   void display_selected_messages() {
@@ -82,7 +95,6 @@ class MessageDisplayer {
 
       fill( text_color );
       text( messages[ind], x_positions[j], y_positions[j], text_width, height );
-      
     }
   }
 

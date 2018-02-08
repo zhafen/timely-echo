@@ -6,8 +6,8 @@
 
 int seconds_to_display_for = 30;
 
-boolean set_time = true;
-int specified_time = 40090;
+boolean set_time = false;
+int specified_time = 300;
 
 ///////////////////////////////////////////////
 
